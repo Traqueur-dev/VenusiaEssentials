@@ -1,0 +1,6 @@
+main: fr.traqueur.venusiaessentials.VenusiaEssentials
+name: VenusiaEssentials
+author: [Traqueur_]
+version: 1.0.0
+description: 'Plugin essentiel au fonctionnement du serveur'
+depend: [Vault, WorldEdit, Factions, WorldGuard]

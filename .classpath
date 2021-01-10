@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-8-openjdk-amd64"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/rladwein/Documents/Developpement/WorkSpaces/(1.7.10) VenusiaEssentials/librairies/Factions.jar"/>
+	<classpathentry kind="lib" path="/home/rladwein/Documents/Developpement/WorkSpaces/(1.7.10) VenusiaEssentials/librairies/paper.jar"/>
+	<classpathentry kind="lib" path="/home/rladwein/Documents/Developpement/WorkSpaces/(1.7.10) VenusiaEssentials/librairies/Vault-1.4.1.jar"/>
+	<classpathentry kind="lib" path="/home/rladwein/Documents/Developpement/WorkSpaces/(1.7.10) VenusiaEssentials/librairies/WorldEdit.jar"/>
+	<classpathentry kind="lib" path="/home/rladwein/Documents/Developpement/WorkSpaces/(1.7.10) VenusiaEssentials/librairies/WorldGuard.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
