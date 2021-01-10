@@ -29,10 +29,8 @@ public class KitListInventory implements InventoryProvider {
 		Collection<Kit> kits = manager.getKits().values();
 		int i = 0;
 		for (Kit kit: kits) {
-			ItemStack icon = kit.getIcon();
-			ItemStack item = new ItemBuilder(icon.getType()).displayname("&4» &eKit &6&l" + kit.getName())
-			.build();
-			items[i] = ClickableItem.empty(item);
+			ItemStack icon = kit.getIcon().displayname("§6§lKit §9" + kit.getName()).build();
+			items[i] = ClickableItem.empty(icon);
 			i++;
 		}
 		

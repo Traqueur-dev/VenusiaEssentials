@@ -15,6 +15,7 @@ import fr.traqueur.venusiaessentials.VenusiaEssentials;
 import fr.traqueur.venusiaessentials.api.Plugin;
 import fr.traqueur.venusiaessentials.api.jsons.DiscUtil;
 import fr.traqueur.venusiaessentials.api.modules.Saveable;
+import fr.traqueur.venusiaessentials.api.utils.LoggerUtils;
 import net.minecraft.util.com.google.gson.reflect.TypeToken;
 
 public class GroupModule extends Saveable {
@@ -22,33 +23,6 @@ public class GroupModule extends Saveable {
 	private static  GroupModule instance;
 
 	private  Map<String, PermissionAttachment> attachments;
-	public Map<String, PermissionAttachment> getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(Map<String, PermissionAttachment> attachments) {
-		this.attachments = attachments;
-	}
-
-	public List<Group> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
-	}
-
-	public Group getDefaultGroup() {
-		return defaultGroup;
-	}
-
-	public void setDefaultGroup(Group defaultGroup) {
-		this.defaultGroup = defaultGroup;
-	}
-
-	public static GroupModule getInstance() {
-		return instance;
-	}
 
 	private  List<Group> groups;
 
@@ -108,13 +82,50 @@ public class GroupModule extends Saveable {
 				}.getType());
 				this.groups = groups;
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				LoggerUtils.error("Les groupes ne se sont pas chargés...");
 			}
 		}
 	}
 
 	@Override
 	public void saveData() {
+		if(this.getFile() == null) {
+			System.out.println("CEST NULL FDP DE FDP DE MERDE");
+		} else if (VenusiaEssentials.getInstance() == null) {
+			System.out.println("INSTANCE ENCULE");
+		} else if(VenusiaEssentials.getInstance().getGson() == null) {
+			System.out.println("GSON EST PAS LA FDP");
+		} else if(this.groups == null || this.groups.isEmpty()) {
+			System.out.println("les groups sont nulles");
+		}
 		DiscUtil.writeCatch(this.getFile(), VenusiaEssentials.getInstance().getGson().toJson(this.groups));
+	}
+	
+	public Map<String, PermissionAttachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Map<String, PermissionAttachment> attachments) {
+		this.attachments = attachments;
+	}
+
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
+
+	public Group getDefaultGroup() {
+		return defaultGroup;
+	}
+
+	public void setDefaultGroup(Group defaultGroup) {
+		this.defaultGroup = defaultGroup;
+	}
+
+	public static GroupModule getInstance() {
+		return instance;
 	}
 }

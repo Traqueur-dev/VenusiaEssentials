@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import com.google.common.collect.Maps;
 
 import fr.traqueur.venusiaessentials.api.utils.DurationFormatter;
+import fr.traqueur.venusiaessentials.api.utils.ItemBuilder;
 import fr.traqueur.venusiaessentials.api.utils.Utils;
 import fr.traqueur.venusiaessentials.modules.profiles.Profile;
 import fr.traqueur.venusiaessentials.modules.profiles.ProfileModule;
@@ -26,7 +27,7 @@ public class Kit {
 	private Map<UUID, Long> cooldownMap; // stockage des cooldowns individuel
 	private Map<UUID, Integer> useMap; // stockage des utilisations individuel [ne servant que si le field maxUse !=
 										// Integer.MAX_VALUE]
-	private ItemStack icon;
+	private ItemBuilder icon;
 
 	public UUID getId() {
 		return id;
@@ -84,11 +85,11 @@ public class Kit {
 		this.useMap = useMap;
 	}
 
-	public ItemStack getIcon() {
+	public ItemBuilder getIcon() {
 		return icon;
 	}
 
-	public void setIcon(ItemStack icon) {
+	public void setIcon(ItemBuilder icon) {
 		this.icon = icon;
 	}
 
@@ -106,7 +107,7 @@ public class Kit {
 	 *               {@link java.util.concurrent.TimeUnit} pour la gestion du temps
 	 *               en millis]
 	 */
-	public Kit(UUID id, String name, Player player, long delay, ItemStack icon) {
+	public Kit(UUID id, String name, Player player, long delay, ItemBuilder icon) {
 		this.id = id;
 		this.name = name;
 		this.items = player.getInventory().getContents();
@@ -128,7 +129,7 @@ public class Kit {
 	 *               en millis]
 	 * @param maxUse -> Utilisation maximal d'un kit pour chaque joueur
 	 */
-	public Kit(UUID id, String name, Player player, long delay, int maxUse, ItemStack icon) {
+	public Kit(UUID id, String name, Player player, long delay, int maxUse, ItemBuilder icon) {
 		this(id, name, player, delay, icon);
 		this.maxUse = maxUse;
 	}

@@ -11,6 +11,16 @@ import fr.traqueur.venusiaessentials.modules.profiles.ProfileModule;
 
 public class PunishCommand extends ICommand {
 
+	@Command(name = "punish.list", aliases = {"pu.list"}, permission = "punish.use", inGameOnly = false)
+	public void onCommandList(CommandArgs args) {
+		args.getPlayer().sendMessage(Utils.LINE);
+		for(PunishmentReasons reason : PunishmentReasons.values()) {
+			long time = reason.getTimeInMinutes();
+			args.getPlayer().sendMessage(Utils.color("&c" + reason.getName() + "&e: Sanction - &a" + reason.getPunishmentType().getName() + "&e | Temps: &7" + (time > 60 ? time == -1 ? "Définitif" : TimeUnit.MINUTES.toHours(time) + "h" : time + "min")));
+		}
+		args.getPlayer().sendMessage(Utils.LINE);
+	}
+	
 	@Command(name = "punish", aliases = {"pu"}, permission = "punish.use", inGameOnly = false)
 	public void onCommand(CommandArgs args) {
 		if (args.getArgs().length >= 1) {

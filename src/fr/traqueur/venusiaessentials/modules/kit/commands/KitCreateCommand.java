@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import fr.traqueur.venusiaessentials.api.commands.CommandArgs;
 import fr.traqueur.venusiaessentials.api.commands.ICommand;
 import fr.traqueur.venusiaessentials.api.commands.annotations.Command;
+import fr.traqueur.venusiaessentials.api.utils.ItemBuilder;
 import fr.traqueur.venusiaessentials.api.utils.JavaUtils;
 import fr.traqueur.venusiaessentials.api.utils.Utils;
 import fr.traqueur.venusiaessentials.modules.kit.Kit;
@@ -46,13 +47,14 @@ public class KitCreateCommand extends ICommand{
 			maxUse = Integer.parseInt(args.getArgs(2));
 		}
 		ItemStack icon = player.getItemInHand();
+		ItemBuilder iconBuilder = new ItemBuilder(icon);
 		if (icon == null || icon.getType() == Material.AIR) {
 			player.sendMessage(Utils.color("&eVous devez avoir un item à la main, cette item sera l'icon du kit"));
 			return;
 		}
 		
 		UUID id = UUID.randomUUID();
-		Kit kit = new Kit(id, name, player, delay, (maxUse > 0 ? maxUse : Integer.MAX_VALUE), icon);
+		Kit kit = new Kit(id, name, player, delay, (maxUse > 0 ? maxUse : Integer.MAX_VALUE), iconBuilder);
 		manager.getKits().put(id, kit);
 		player.sendMessage(Utils.color("&eVous venez de créer le kit &c" + name + " &edisponible tous les &c" + args.getArgs(1) +"&e."));
 	}

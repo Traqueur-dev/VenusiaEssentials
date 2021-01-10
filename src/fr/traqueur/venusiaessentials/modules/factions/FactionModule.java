@@ -11,7 +11,6 @@ import com.massivecraft.factions.Faction;
 import fr.traqueur.venusiaessentials.api.Plugin;
 import fr.traqueur.venusiaessentials.api.jsons.DiscUtil;
 import fr.traqueur.venusiaessentials.api.modules.Saveable;
-import fr.traqueur.venusiaessentials.api.utils.Utils;
 import net.minecraft.util.com.google.gson.reflect.TypeToken;
 
 public class FactionModule extends Saveable {
@@ -70,7 +69,7 @@ public class FactionModule extends Saveable {
 
 	@Override
 	public File getFile() {
-		return Utils.getFormatedFile((Plugin) this.getPlugin(), (String) "/factions/");
+		return new File(this.getPlugin().getDataFolder(), "/factions/");
 	}
 
 	@Override

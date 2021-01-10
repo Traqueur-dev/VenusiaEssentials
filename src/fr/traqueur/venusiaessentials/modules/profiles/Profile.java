@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 
 import com.google.common.collect.Lists;
 
-import fr.traqueur.venusiaessentials.VenusiaEssentials;
-import fr.traqueur.venusiaessentials.api.Plugin;
 import fr.traqueur.venusiaessentials.api.utils.Utils;
 import fr.traqueur.venusiaessentials.modules.groups.Group;
 import fr.traqueur.venusiaessentials.modules.homes.Home;
@@ -196,8 +194,7 @@ public class Profile {
 	}
 
 	public File getProfileFile() {
-		return Utils.getFormatedFile((Plugin) VenusiaEssentials.getInstance(),
-				(String) ("/profiles/" + this.playerName + ".json"));
+		return new File(ProfileModule.getInstance().getFile(), this.playerName + ".json");
 	}
 
 	public void punish(Punishment punishment) {

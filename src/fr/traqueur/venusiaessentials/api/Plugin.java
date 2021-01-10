@@ -54,6 +54,7 @@ public abstract class Plugin extends JavaPlugin {
 
 		LoggerUtils.log("Initialisation du module des commandes...");
 		this.framework = new CommandFramework(this);
+		framework.registerHelp();
 		LoggerUtils.success("Initialisation effectuée avec succés.");
 
 		invManager = new InventoryManager(this);

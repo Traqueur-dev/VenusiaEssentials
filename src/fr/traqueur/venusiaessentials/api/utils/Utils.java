@@ -18,8 +18,6 @@ import org.bukkit.inventory.PlayerInventory;
 
 import com.google.common.collect.Lists;
 
-import fr.traqueur.venusiaessentials.api.Plugin;
-
 public class Utils {
 
 	public static String LINE = color("&7&m" + StringUtils.repeat("-", 44));
@@ -27,10 +25,6 @@ public class Utils {
 
 	public static String color(String msg) {
 		return ChatColor.translateAlternateColorCodes('&', msg);
-	}
-
-	public static File getFormatedFile(Plugin plugin, String fileName) {
-		return new File(plugin.getDataFolder(), fileName);
 	}
 
 	public static void deleteFile(File file) {
@@ -60,16 +54,6 @@ public class Utils {
 				+ location.getBlockZ());
 	}
 
-	public void createDirectory(Plugin plugin, String directory) {
-		File file = Utils.getFormatedFile(plugin, directory);
-		if (!file.exists()) {
-			try {
-				file.mkdir();
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
-		}
-	}
 
 	@SuppressWarnings("deprecation")
 	public static Player[] getOnlinePlayers() {

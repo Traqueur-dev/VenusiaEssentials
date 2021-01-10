@@ -64,7 +64,7 @@ public class ProfileModule extends Saveable {
 
 	@Override
 	public File getFile() {
-		return Utils.getFormatedFile((Plugin) this.getPlugin(), (String) "/profiles/");
+		return new File(this.getPlugin().getDataFolder(), "/profiles/");
 	}
 
 	@Override

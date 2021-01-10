@@ -78,10 +78,13 @@ public class VenusiaEssentials extends Plugin {
 
 	private static VenusiaEssentials instance;
 	
+	public VenusiaEssentials() {
+		instance = this;
+	}
+	
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		instance = this;
 		this.setupEconomy();
 	}
 

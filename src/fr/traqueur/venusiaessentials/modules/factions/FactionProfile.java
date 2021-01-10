@@ -4,17 +4,17 @@ import java.io.File;
 
 import com.massivecraft.factions.Faction;
 
-import fr.traqueur.venusiaessentials.VenusiaEssentials;
-import fr.traqueur.venusiaessentials.api.Plugin;
 import fr.traqueur.venusiaessentials.api.utils.FactionUtils;
-import fr.traqueur.venusiaessentials.api.utils.Utils;
 
 public class FactionProfile {
 
+	private String name;
 	private String uniqueId;
 	private int outposts;
 
 	public FactionProfile(Faction faction) {
+		this.outposts = 0;
+		this.setName(faction.getTag());
 		this.uniqueId = faction.getId();
 	}
 
@@ -34,8 +34,7 @@ public class FactionProfile {
 	}
 
 	public File getProfileFile() {
-		return Utils.getFormatedFile((Plugin) VenusiaEssentials.getInstance(),
-				(String) ("/factions/" + this.uniqueId + ".json"));
+		return new File(FactionModule.getInstance().getFile(), this.uniqueId + ".json");
 	}
 
 	public String getUniqueId() {
@@ -52,6 +51,14 @@ public class FactionProfile {
 
 	public void setOutposts(int outposts) {
 		this.outposts = outposts;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
