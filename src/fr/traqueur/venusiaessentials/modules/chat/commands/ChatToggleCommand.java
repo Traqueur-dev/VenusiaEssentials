@@ -10,7 +10,7 @@ import fr.traqueur.venusiaessentials.modules.chat.ChatModule;
 
 public class ChatToggleCommand extends BaseCommand {
 
-	@Command(name = "chat.toggle", aliases = { "tchat.toggle", "tchat.enable","chat.enable" })
+	@Command(name = "chat.toggle", aliases = { "tchat.toggle", "tchat.enable","chat.enable" }, permission = "chat.toggle")
 	public void onCommand(CommandArgs args) {
 		ChatModule module = ChatModule.getInstance();
 		boolean newStatut = !module.getChat().isEnabled();

@@ -5,6 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import com.google.common.collect.Lists;
@@ -25,7 +27,10 @@ public class GroupCommand extends BaseCommand {
 		args.getSender().sendMessage("§eGroupes");
 		args.getSender().sendMessage(" ");
 		args.getSender().sendMessage("§a/" + args.getLabel() + " list §8: §eListe des rangs");
-		args.getSender().sendMessage("§a/" + args.getLabel() + " create <group> <prefix>§8: §eCréer un rang");
+		args.getSender().sendMessage("§a/" + args.getLabel() + " create <group> <prefix> <color>§8: §eCréer un rang");
+		args.getSender().sendMessage("§a/" + args.getLabel() + " editname <group> <name>§8: §eModifie le nom d'un rang");
+		args.getSender().sendMessage("§a/" + args.getLabel() + " editprefix <group> <prefix>§8: §eModifie le prefix d'un rang");
+		args.getSender().sendMessage("§a/" + args.getLabel() + " editcolor <group> <color>§8: §eModifie la couleur d'un rang");
 		args.getSender().sendMessage("§a/" + args.getLabel() + " info <group>§8: §eVoir les informations d'un rang");
 		args.getSender().sendMessage(
 				"§a/" + args.getLabel() + " set <joueur> <nom> [temps en minute]§8: §eModifier le rang d'un joueur");
@@ -38,7 +43,7 @@ public class GroupCommand extends BaseCommand {
 
 	@Command(name = "group.create", aliases = {"groupe.create"}, permission = "group.create", inGameOnly = false)
 	public void onCreateCommand(CommandArgs args) {
-		if (args.getArgs().length == 2) {
+		if (args.getArgs().length == 3) {
 
 			GroupModule groupManager = GroupModule.getInstance();
 			String groupName = args.getArgs(0);
@@ -51,9 +56,10 @@ public class GroupCommand extends BaseCommand {
 			}
 
 			String prefix = args.getArgs(1);
+			String color = args.getArgs(2);
 
 			try {
-				groupManager.createGroup(groupName, Lists.newArrayList(), prefix);
+				groupManager.createGroup(groupName, Lists.newArrayList(), prefix,color);
 			} catch (IOException e) {
 
 				args.getSender().sendMessage(Utils.LINE);
@@ -65,6 +71,119 @@ public class GroupCommand extends BaseCommand {
 
 			args.getSender().sendMessage(Utils.LINE);
 			args.getSender().sendMessage("§eLe rang §a" + groupName + " §evient d'être §acréée.");
+			args.getSender().sendMessage(Utils.LINE);
+		}
+	}
+	
+	@Command(name = "group.delete", aliases = {"groupe.delete"}, permission = "group.delete", inGameOnly = false)
+	public void onDeleteCommand(CommandArgs args) {
+		if (args.getArgs().length == 1) {
+
+			GroupModule groupManager = GroupModule.getInstance();
+			String groupName = args.getArgs(0);
+
+			if (!groupManager.isGroupExisting(groupName)) {
+				args.getSender().sendMessage(Utils.LINE);
+				args.getSender().sendMessage("§cCe rang n'existe pas !");
+				args.getSender().sendMessage(Utils.LINE);
+				return;
+			}
+
+			Group group = groupManager.getByName(groupName);
+			groupManager.deleteGroup(group);
+
+			args.getSender().sendMessage(Utils.LINE);
+			args.getSender().sendMessage("§eLe rang §a" + groupName + " §evient d'être §aeffacé.");
+			args.getSender().sendMessage(Utils.LINE);
+		}
+	}
+	
+	@Command(name = "group.editname", aliases = {"groupe.editname"}, permission = "group.edit", inGameOnly = false)
+	public void onEditCommand(CommandArgs args) {
+		if (args.getArgs().length == 2) {
+
+			GroupModule groupManager = GroupModule.getInstance();
+			String groupName = args.getArgs(0);
+			String groupNewName = args.getArgs(1);
+
+			if (!groupManager.isGroupExisting(groupName)) {
+				args.getSender().sendMessage(Utils.LINE);
+				args.getSender().sendMessage("§cCe rang n'existe pas !");
+				args.getSender().sendMessage(Utils.LINE);
+				return;
+			}
+
+			Group group = groupManager.getByName(groupName);
+			for(Player p: Utils.getOnlinePlayers()) {
+				Profile userProfile = ProfileModule.getInstance().getProfile(p.getName());
+				userProfile.setGroup(groupNewName);
+			}
+			group.setName(groupNewName);
+
+			args.getSender().sendMessage(Utils.LINE);
+			args.getSender().sendMessage("§eLe rang §a" + groupName + " §evient d'être changé en §a"+groupNewName+"§e.");
+			args.getSender().sendMessage(Utils.LINE);
+		}
+	}
+	
+	@Command(name = "group.editprefix", aliases = {"groupe.editprefix"}, permission = "group.edit", inGameOnly = false)
+	public void onEditPrefixCommand(CommandArgs args) {
+		if (args.getArgs().length == 2) {
+
+			GroupModule groupManager = GroupModule.getInstance();
+			String groupName = args.getArgs(0);
+			String groupNewPrefix = args.getArgs(1);
+
+			if (!groupManager.isGroupExisting(groupName)) {
+				args.getSender().sendMessage(Utils.LINE);
+				args.getSender().sendMessage("§cCe rang n'existe pas !");
+				args.getSender().sendMessage(Utils.LINE);
+				return;
+			}
+
+			Group group = groupManager.getByName(groupName);
+			group.setPrefix(groupNewPrefix.replace("&", "§"));
+
+			args.getSender().sendMessage(Utils.LINE);
+			args.getSender().sendMessage("§eLe prefix du rang §a" + groupName + " §evient d'être changé en §a"+groupNewPrefix+"§e.");
+			args.getSender().sendMessage(Utils.LINE);
+		}
+	}
+	
+	@Command(name = "group.editcolor", aliases = {"groupe.editcolor"}, permission = "group.edit", inGameOnly = false)
+	public void onEditColorCommand(CommandArgs args) {
+		if (args.getArgs().length == 2) {
+
+			GroupModule groupManager = GroupModule.getInstance();
+			String groupName = args.getArgs(0);
+			String groupNewColor = args.getArgs(1);
+
+			if (!groupManager.isGroupExisting(groupName)) {
+				args.getSender().sendMessage(Utils.LINE);
+				args.getSender().sendMessage("§cCe rang n'existe pas !");
+				args.getSender().sendMessage(Utils.LINE);
+				return;
+			}
+			if(!groupNewColor.contains("&")) {
+				args.getSender().sendMessage(Utils.LINE);
+				args.getSender().sendMessage("§cVeuillez noter les couleur &<numero> !");
+				args.getSender().sendMessage(Utils.LINE);
+				return;
+			}
+			
+			if(ChatColor.getByChar(groupNewColor.substring(1)) == null) {
+				args.getSender().sendMessage(Utils.LINE);
+				args.getSender().sendMessage("§cCette couleur n'existe pas !");
+				args.getSender().sendMessage(Utils.LINE);
+				return;
+			}
+			
+			
+			Group group = groupManager.getByName(groupName);
+			group.setColor(groupNewColor.replace("&", "§"));
+
+			args.getSender().sendMessage(Utils.LINE);
+			args.getSender().sendMessage("§eLa couleur du rang §a" + groupName + " §evient d'être changé en §a"+ChatColor.getByChar(groupNewColor.substring(1)).name()+"§e.");
 			args.getSender().sendMessage(Utils.LINE);
 		}
 	}

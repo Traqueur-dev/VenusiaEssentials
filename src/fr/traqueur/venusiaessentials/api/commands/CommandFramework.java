@@ -67,15 +67,15 @@ public class CommandFramework implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		return handleCommand(sender, cmd, label, args);
 	}
-	
+
 	/**
 	 * Handles commands. Used in the onCommand method in your JavaPlugin class
 	 * 
 	 * @param sender The {@link org.bukkit.command.CommandSender} parsed from
-	 *            onCommand
-	 * @param cmd The {@link org.bukkit.command.Command} parsed from onCommand
-	 * @param label The label parsed from onCommand
-	 * @param args The arguments parsed from onCommand
+	 *               onCommand
+	 * @param cmd    The {@link org.bukkit.command.Command} parsed from onCommand
+	 * @param label  The label parsed from onCommand
+	 * @param args   The arguments parsed from onCommand
 	 * @return Always returns true for simplicity's sake in onCommand
 	 */
 	public boolean handleCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
@@ -90,7 +90,8 @@ public class CommandFramework implements CommandExecutor {
 				Method method = commandMap.get(cmdLabel).getKey();
 				Object methodObject = commandMap.get(cmdLabel).getValue();
 				Command command = method.getAnnotation(Command.class);
-				if ((!command.permission().equals("") && !sender.hasPermission(command.permission())) || !sender.hasPermission("base.perm.op")) {
+				if ((!command.permission().equals("") && !sender.hasPermission(command.permission()))
+						&& !sender.hasPermission("base.perm.op")) {
 					sender.sendMessage(command.noPerm());
 					return true;
 				}
@@ -99,8 +100,8 @@ public class CommandFramework implements CommandExecutor {
 					return true;
 				}
 				try {
-					method.invoke(methodObject, new CommandArgs(sender, cmd, label, args,
-							cmdLabel.split("\\.").length - 1));
+					method.invoke(methodObject,
+							new CommandArgs(sender, cmd, label, args, cmdLabel.split("\\.").length - 1));
 				} catch (IllegalArgumentException e) {
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
@@ -116,8 +117,8 @@ public class CommandFramework implements CommandExecutor {
 	}
 
 	/**
-	 * Registers all command and completer methods inside of the object. Similar
-	 * to Bukkit's registerEvents method.
+	 * Registers all command and completer methods inside of the object. Similar to
+	 * Bukkit's registerEvents method.
 	 * 
 	 * @param obj The object to register the commands of
 	 */
@@ -137,8 +138,8 @@ public class CommandFramework implements CommandExecutor {
 				Completer comp = m.getAnnotation(Completer.class);
 				if (m.getParameterTypes().length > 1 || m.getParameterTypes().length == 0
 						|| m.getParameterTypes()[0] != CommandArgs.class) {
-					System.out.println("Unable to register tab completer " + m.getName()
-							+ ". Unexpected method arguments");
+					System.out.println(
+							"Unable to register tab completer " + m.getName() + ". Unexpected method arguments");
 					continue;
 				}
 				if (m.getReturnType() != List.class) {
@@ -172,7 +173,8 @@ public class CommandFramework implements CommandExecutor {
 
 	public void registerCommand(Command command, String label, Method m, Object obj) {
 		commandMap.put(label.toLowerCase(), new AbstractMap.SimpleEntry<Method, Object>(m, obj));
-		commandMap.put(this.plugin.getName() + ':' + label.toLowerCase(), new AbstractMap.SimpleEntry<Method, Object>(m, obj));
+		commandMap.put(this.plugin.getName() + ':' + label.toLowerCase(),
+				new AbstractMap.SimpleEntry<Method, Object>(m, obj));
 		String cmdLabel = label.split("\\.")[0].toLowerCase();
 		if (map.getCommand(cmdLabel) == null) {
 			org.bukkit.command.Command cmd = new BukkitCommand(cmdLabel, this, plugin);
@@ -223,5 +225,5 @@ public class CommandFramework implements CommandExecutor {
 	private void defaultCommand(CommandArgs args) {
 		args.getSender().sendMessage(args.getLabel() + " is not handled! Oh noes!");
 	}
-	
+
 }

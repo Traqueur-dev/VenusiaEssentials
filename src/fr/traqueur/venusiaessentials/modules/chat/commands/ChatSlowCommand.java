@@ -14,7 +14,7 @@ import net.minecraft.util.com.google.common.primitives.Longs;
 
 public class ChatSlowCommand extends BaseCommand {
 
-	@Command(name = "chat.slow", aliases = {"tchat.slow"})
+	@Command(name = "chat.slow", aliases = {"tchat.slow"},permission = "chat.slow")
 	public void onCommand(CommandArgs args) {
 		ChatModule module = ChatModule.getInstance();
 		if(args.length() < 1) {

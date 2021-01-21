@@ -150,7 +150,7 @@ public class TeleportCommand extends BaseCommand {
 		senderProfile.getTeleportRequests().remove(request);
 	}
 
-	@Command(name = "teleporthere", aliases = "tphere", permission = "base.teleport")
+	@Command(name = "teleporthere", aliases = {"tphere", "s"}, permission = "base.teleport")
 	public void tphereCmd(CommandArgs args) {
 		Profile profile = getProfile(args.getPlayer().getName());
 

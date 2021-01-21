@@ -11,7 +11,7 @@ import fr.traqueur.venusiaessentials.modules.BaseCommand;
 
 public class ChatClearCommand extends BaseCommand {
 
-	@Command(name = "chat.clear", aliases = {"tchat.clear"})
+	@Command(name = "chat.clear", aliases = {"tchat.clear"}, permission = "chat.clear")
 	public void onCommand(CommandArgs args) {
 		for(Player player: Utils.getOnlinePlayers()) {
 			for (int i = 0; i < 100; i++) {

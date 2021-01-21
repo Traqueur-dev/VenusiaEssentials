@@ -34,6 +34,10 @@ public class Profile {
 	private Location logoutLocation;
 	private long lastConnectionMillis;
 
+	//whipser
+	private transient String lastWhisper;
+	private boolean spyMode;
+	
 	// modes
 	private boolean flyMode, godMode, vanish, jail;
 
@@ -76,6 +80,9 @@ public class Profile {
 		this.lastConnectionMillis = System.currentTimeMillis();
 
 		this.balance = 30;
+
+		this.lastWhisper = null;
+		this.spyMode = false;
 		
 		this.flyMode = false;
 		this.godMode = false;
@@ -211,15 +218,22 @@ public class Profile {
 										+ DateFormatUtils.format(punishment.getTime(), "dd/MM/yyyy | HH:mm:ss") + "§e.")
 						+ "\n\n§cEn cas de problèmes avec cette sanction, contactez un membre du personnel.\n"
 						+ Utils.LINE);
+				Bukkit.broadcastMessage(Utils.LINE);
+				Bukkit.broadcastMessage("§eSanction:");
+				Bukkit.broadcastMessage(" ");
+				Bukkit.broadcastMessage(this.getPlayerName() + "§ec'est fait §6bannir §epar §c" + punishment.getPlayerName() + "§e pour \"§a"
+						+ punishment.getReason() + "§e\".");
+				Bukkit.broadcastMessage(" ");
+				Bukkit.broadcastMessage(Utils.LINE);
 				break;
 
 			case MUTE:
-				this.msg(Utils.LINE);
-				this.msg("§eSanctions");
-				this.msg(" ");
-				this.msg("§eVous vous êtes fait §6mute §epar §c" + punishment.getPlayerName() + "§e pour \"§a"
+				Bukkit.broadcastMessage(Utils.LINE);
+				Bukkit.broadcastMessage("§eSanction:");
+				Bukkit.broadcastMessage(" ");
+				Bukkit.broadcastMessage(this.getPlayerName() + "§ec'est fait §6mute §epar §c" + punishment.getPlayerName() + "§e pour \"§a"
 						+ punishment.getReason() + "§e\".");
-				this.msg(" ");
+				Bukkit.broadcastMessage(" ");
 				this.getPlayer()
 						.sendMessage(punishment.getTime() == -1 ? "§eCette sanction est §cdéfinitive§e."
 								: "§eCette §csanction §eprendra §afin§e le: §c"
@@ -228,7 +242,7 @@ public class Profile {
 				this.msg(" ");
 				this.msg(
 						"§cEn cas de problèmes avec cette sanction, contactez un membre du personnel.");
-				this.msg(Utils.LINE);
+				Bukkit.broadcastMessage(Utils.LINE);
 				break;
 
 			case KICK:
@@ -236,6 +250,13 @@ public class Profile {
 						+ punishment.getPunisher() + "§e pour \"§a" + punishment.getReason()
 						+ "§e\".\n§cEn cas de problèmes avec cette sanction, contactez un membre du personnel.\n"
 						+ Utils.LINE);
+				Bukkit.broadcastMessage(Utils.LINE);
+				Bukkit.broadcastMessage("§eSanction:");
+				Bukkit.broadcastMessage(" ");
+				Bukkit.broadcastMessage(this.getPlayerName() + "§ec'est fait §6kick §epar §c" + punishment.getPlayerName() + "§e pour \"§a"
+						+ punishment.getReason() + "§e\".");
+				Bukkit.broadcastMessage(" ");
+				Bukkit.broadcastMessage(Utils.LINE);
 				break;
 			}
 		}
@@ -428,6 +449,27 @@ public class Profile {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+
+	public String getLastWhisper() {
+		return lastWhisper;
+	}
+
+	public void setLastWhisper(String lastWhisper) {
+		this.lastWhisper = lastWhisper;
+	}
+
+	public boolean isSpyMode() {
+		return spyMode;
+	}
+
+	public void setSpyMode(boolean spyMode) {
+		this.spyMode = spyMode;
+	}
+
+	public boolean toggleSpy() {
+		spyMode = !spyMode;
+		return spyMode;
 	}
 	
 

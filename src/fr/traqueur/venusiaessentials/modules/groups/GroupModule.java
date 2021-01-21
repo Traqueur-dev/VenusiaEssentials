@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
 import com.google.common.collect.Lists;
@@ -16,6 +17,9 @@ import fr.traqueur.venusiaessentials.api.Plugin;
 import fr.traqueur.venusiaessentials.api.jsons.DiscUtil;
 import fr.traqueur.venusiaessentials.api.modules.Saveable;
 import fr.traqueur.venusiaessentials.api.utils.LoggerUtils;
+import fr.traqueur.venusiaessentials.api.utils.Utils;
+import fr.traqueur.venusiaessentials.modules.profiles.Profile;
+import fr.traqueur.venusiaessentials.modules.profiles.ProfileModule;
 import net.minecraft.util.com.google.gson.reflect.TypeToken;
 
 public class GroupModule extends Saveable {
@@ -36,7 +40,7 @@ public class GroupModule extends Saveable {
 		this.attachments = Maps.newHashMap();
 		this.groups = Lists.newArrayList();
 
-		this.defaultGroup = new Group("default", "§7[§fDéfaut§7]§f", Arrays.asList(new String[] {}));
+		this.defaultGroup = new Group("default", "§7[§fDéfaut§7]§f", "§f", Arrays.asList(new String[] {}));
 
 		if (!this.isGroupExisting(this.defaultGroup.getName())) {
 			this.groups.add(this.defaultGroup);
@@ -46,8 +50,8 @@ public class GroupModule extends Saveable {
 		this.registerCommand(new GroupCommand());
 	}
 
-	public void createGroup(String groupName, List<String> permissions, String prefix) throws IOException {
-		Group group = new Group(groupName, prefix.replace("&", "§"), permissions);
+	public void createGroup(String groupName, List<String> permissions, String prefix, String color) throws IOException {
+		Group group = new Group(groupName, prefix.replace("&", "§"),color.replace("&", "§"), permissions);
 		this.groups.add(group);
 	}
 
@@ -127,5 +131,15 @@ public class GroupModule extends Saveable {
 
 	public static GroupModule getInstance() {
 		return instance;
+	}
+
+	public void deleteGroup(Group group) {
+		for(Player p: Utils.getOnlinePlayers()) {
+			Profile userProfile = ProfileModule.getInstance().getProfile(p.getName());
+			userProfile.setGroup(this.getDefaultGroup().getName());
+			userProfile.setExpirationMillis(-1);
+		}
+		this.groups.remove(group);
+		
 	}
 }

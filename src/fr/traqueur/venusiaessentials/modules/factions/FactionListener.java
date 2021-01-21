@@ -23,7 +23,7 @@ import fr.traqueur.venusiaessentials.api.utils.Utils;
 public class FactionListener implements Listener {
 
 	private FactionModule factionManager = FactionModule.getInstance();
-
+	
 	@EventHandler
 	public void onFactionCreate(FactionCreateEvent event) {
 		final String tag = event.getFactionTag();

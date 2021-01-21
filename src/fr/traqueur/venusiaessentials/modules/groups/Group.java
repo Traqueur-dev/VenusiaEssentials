@@ -4,13 +4,14 @@ import java.util.List;
 
 public class Group {
 
-	private String name, prefix;
+	private String name, prefix, color;
 	private List<String> permissions;
 	
 	public Group() {}
 	
-	public Group(String name, String prefix, List<String> perm) {
+	public Group(String name, String prefix, String color, List<String> perm) {
 		this.name = name;
+		this.setColor(color);
 		this.prefix = prefix;
 		permissions = perm;
 	}
@@ -37,6 +38,14 @@ public class Group {
 
 	public void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 	
 	

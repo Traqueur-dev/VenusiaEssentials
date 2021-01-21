@@ -81,6 +81,7 @@ public class ProfileModule extends Saveable {
 			try {
 				Profile profile = (Profile) this.getGson().fromJson(content, new TypeToken<Profile>() {
 				}.getType());
+				profile.setLastWhisper(null);
 				profile.setTeleportRequests(Lists.newArrayList()); // set because is transient
 				this.createProfile(profile);
 				continue;

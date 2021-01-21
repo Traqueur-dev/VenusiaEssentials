@@ -9,6 +9,7 @@ import fr.traqueur.venusiaessentials.modules.chat.commands.ChatClearCommand;
 import fr.traqueur.venusiaessentials.modules.chat.commands.ChatCommand;
 import fr.traqueur.venusiaessentials.modules.chat.commands.ChatSlowCommand;
 import fr.traqueur.venusiaessentials.modules.chat.commands.ChatToggleCommand;
+import fr.traqueur.venusiaessentials.modules.chat.commands.PrivateMessageCommand;
 import fr.traqueur.venusiaessentials.modules.chat.listeners.ChatListener;
 
 public class ChatModule extends Saveable {
@@ -25,6 +26,7 @@ public class ChatModule extends Saveable {
 		this.registerCommand(new ChatClearCommand());
 		this.registerCommand(new ChatSlowCommand());
 		this.registerCommand(new ChatToggleCommand());
+		this.registerCommand(new PrivateMessageCommand());
 		this.registerListener(new ChatListener());
 	}
 
