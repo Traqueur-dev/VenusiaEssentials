@@ -49,6 +49,15 @@ public class ChatListener implements Listener {
 		
 		event.setCancelled(true);
 		
+		if (player.hasPermission("base.chat.staff") && event.getMessage().startsWith("!")
+				&& !event.getMessage().equals("!")) {
+			for (Player p : Utils.getOnlinePlayers()) {
+				if (p.hasPermission("base.chat.staff"))
+					p.sendMessage("§8[§e§lStaff§8] §e" + player.getName() + " §7» §e" + event.getMessage().substring(1));
+			}
+			return;
+		}
+		
 		if (player.hasPermission("base.chat.bypass")) {
 
 			for(Player p: Utils.getOnlinePlayers()) {
@@ -89,19 +98,6 @@ public class ChatListener implements Listener {
 		}
 		CooldownUtils.addCooldown("Chat", player,
 				(int) TimeUnit.MILLISECONDS.toSeconds(manager.getChat().getSlowTime()));
-	}
-
-	@EventHandler
-	public void onStaffChat(AsyncPlayerChatEvent event) {
-		Player player = (Player) event.getPlayer();
-		if (!player.hasPermission("base.chat.staff") || !event.getMessage().startsWith("!")
-				|| event.getMessage().equals("!"))
-			return;
-		for (Player p : Utils.getOnlinePlayers()) {
-			if (p.hasPermission("base.chat.staff"))
-				p.sendMessage("§8[§e§lStaff§8] §e" + player.getName() + " §7» §e" + event.getMessage().substring(1));
-		}
-		event.setCancelled(true);
 	}
 
 }
